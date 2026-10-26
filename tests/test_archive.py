@@ -128,6 +128,13 @@ class MergeTests(unittest.TestCase):
         commit = next(x[2] for x in calls if x[1] == '/git/commits')
         self.assertEqual(commit['parents'], [base])
         self.assertFalse(any(x[0] == 'PATCH' for x in calls))
+        client.merge_checked = lambda pr, timeout: (True, 'merged')
+        calls.clear()
+        result = client.restore(target, auto_merge=True, dispatch_check=True)
+        self.assertTrue(result['merged'])
+        dispatch = next(x[2] for x in calls if x[1] == '/actions/workflows/validate.yml/dispatches')
+        self.assertEqual(dispatch['inputs']['base_sha'], base)
+        self.assertTrue(dispatch['ref'].startswith('restore/'))
 
 
 class MCPTests(unittest.TestCase):

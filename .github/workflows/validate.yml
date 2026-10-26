@@ -5,6 +5,11 @@ on:
   pull_request:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      base_sha:
+        description: Optional base commit for validating restoration changes
+        required: false
+        type: string
 permissions:
   contents: read
 jobs:
@@ -21,8 +26,8 @@ jobs:
         run: python3 -m unittest discover -s tests -v
       - name: Validate archive and PR changes
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_BRANCH: ${{ github.head_ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha || inputs.base_sha }}
+          HEAD_BRANCH: ${{ github.head_ref || github.ref_name }}
         run: |
           if [ -n "$BASE_SHA" ]; then
             python3 scripts/validate_archive.py --base "$BASE_SHA" --branch "$HEAD_BRANCH"

@@ -10,10 +10,11 @@ permissions:
   contents: write
   pull-requests: write
   checks: read
+  actions: write
 jobs:
   restore:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 6
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
@@ -23,9 +24,9 @@ jobs:
         run: |
           python3 -m unittest discover -s tests -v
           python3 scripts/validate_archive.py
-      - name: Create restoration commit and pull request
+      - name: Restore through a validated pull request
         env:
           ARCHIVE_GITHUB_TOKEN: ${{ github.token }}
           ARCHIVE_REPO: ${{ github.repository }}
           RESTORE_SHA: ${{ inputs.commit_sha }}
-        run: python3 scripts/archive_sync.py restore --sha "$RESTORE_SHA"
+        run: python3 scripts/archive_sync.py restore --sha "$RESTORE_SHA" --auto-merge --dispatch-check --timeout 240

@@ -62,7 +62,7 @@ python scripts/archive_sync.py record --input integrations/example-record.json -
 
 自动合并检查本次 head SHA 的 GitHub Actions `archive-validate` 结果，校验成功且 SHA 未变化后才合并。超时、失败、合并冲突和限流会留下 PR，回报实际状态；下次用相同记录重试即可。待合并 PR 不会被主分支读取工具当成已同步事实。
 
-**触发边界：** GitHub 不知道其他 AI 的聊天何时结束。本仓库工作流负责提交校验和手动恢复；任务完成触发器必须由各 Agent 宿主调用。仅复制仓库不会产生跨平台后台监控，也不会自动把档案灌入各平台内置记忆。
+**触发边界：** GitHub 不知道其他 AI 的聊天何时结束。本仓库工作流负责提交校验和按用户指定版本一键恢复；任务完成触发器必须由各 Agent 宿主调用。仅复制仓库不会产生跨平台后台监控，也不会自动把档案灌入各平台内置记忆。
 
 ## 官方资料与核实边界
 

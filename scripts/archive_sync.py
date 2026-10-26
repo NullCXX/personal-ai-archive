@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 import hashlib
 import json
 import os
-from pathlib import Path, PurePosixPath
+from pathlib import Path
 import re
 import subprocess
 import sys
@@ -232,7 +232,7 @@ class GitHub:
     def history(self):
         return [{'sha': c['sha'], 'message': c['commit']['message'], 'url': c['html_url']} for c in self.api('GET', '/commits?sha=main&per_page=100')]
 
-    def restore(self, sha, auto_merge=False, timeout=120):
+    def restore(self, sha, auto_merge=False, timeout=120, dispatch_check=False):
         sha = self.pin(sha)
         base = self.head()
         comparison = self.api('GET', '/compare/' + sha + '...' + base)
@@ -260,6 +260,8 @@ class GitHub:
         result = {'commit': commit['sha'], 'pull_request': pr['html_url'], 'merged': False, 'target': sha}
         if auto_merge:
             try:
+                if dispatch_check:
+                    self.api('POST', '/actions/workflows/validate.yml/dispatches', {'ref': branch, 'inputs': {'base_sha': base}})
                 result['merged'], result['message'] = self.merge_checked(pr, timeout)
             except ArchiveError as e:
                 result['message'] = str(e)
@@ -284,6 +286,7 @@ def main():
     sub.add_parser('snapshot'); sub.add_parser('history'); sub.add_parser('protect')
     record = sub.add_parser('record'); record.add_argument('--input', required=True)
     restore = sub.add_parser('restore'); restore.add_argument('--sha', required=True)
+    restore.add_argument('--dispatch-check', action='store_true', help='Trigger validation for GITHUB_TOKEN-created PRs; requires Actions: write.')
     for p in (record, restore):
         p.add_argument('--auto-merge', action='store_true'); p.add_argument('--timeout', type=int, default=120)
     args = parser.parse_args()
@@ -297,7 +300,7 @@ def main():
         value = json.loads(Path(args.input).read_text(encoding='utf-8-sig'))
         result = client.record(value, args.auto_merge, args.timeout)
     elif args.command == 'restore':
-        result = client.restore(args.sha, args.auto_merge, args.timeout)
+        result = client.restore(args.sha, args.auto_merge, args.timeout, args.dispatch_check)
     else:
         result = getattr(client, args.command)()
     print(json.dumps(result, ensure_ascii=False, indent=2))
