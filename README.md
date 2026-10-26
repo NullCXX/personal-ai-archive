@@ -1,31 +1,51 @@
-# AI-INDEX: 跨 AI 个人记忆档案
+# AI-INDEX: NullCXX 的跨 AI 个人记忆档案
 
-私有仓库：https://github.com/NullCXX/personal-ai-archive
+仓库：https://github.com/NullCXX/personal-ai-archive  
+当前状态：**公开；main 已启用分支保护**。资料更新：2026-10-27。
 
-本仓库以 UTF-8 Markdown 保存长期个人信息，GitHub 为共享来源。不同 AI 在授权后读取同一份档案，不代表各平台内置“记忆”会自动互通。模板中的占位符尚未填写，不构成个人事实。
+以 UTF-8 Markdown 保存可公开的个人背景、协作偏好、学习与项目经验。GitHub 是共享资料来源；不同 AI 需具备网页/API/工具读取能力，不会因此自动共享各自内置记忆。
 
-## 内容导航
+## 从这里开始
 
-| 目录 | 内容 | 使用方法 |
-| --- | --- | --- |
-| identity/ | 身份、目标、价值观 | 仅根据本人明确提供的信息填写 |
-| workflow/ | 习惯、工具、沟通、优先级 | 任务开始时读取；变更追加到 updates/ |
-| memory/ | 偏好、经验、决策 | 任务结束后追加带来源的记录 |
-| skills/ | 技能、学习计划、能力差距 | 随已验证的学习成果更新 |
-| archive/ | 历史项目、旧文档、完成任务 | 保存完成状态与交付物索引 |
+- [个人身份](identity/profile.md)、[目标](identity/goals.md)、[实践与决策原则](identity/values.md)
+- [沟通与交付偏好](workflow/preferences.md)、[工具](workflow/tools.md)、[推进顺序](workflow/priorities.md)
+- [偏好索引](memory/preferences.md)、[经验主题](memory/lessons.md)、[决策与开放项](memory/decisions-index.md)
+- [能力证据](skills/inventory.md)、[学习路线](skills/learning-plan.md)、[待提升项](skills/gaps.md)
+- [87 个聊天的逐项摘要](archive/conversations/2026-10-27/index.md)、[13 个项目主题](archive/index.md)
 
-## 最短使用路径
+## 本次整理范围
 
-1. AI 首先读取 [AGENTS.md](AGENTS.md)，再读取 identity/、workflow/ 和相关 memory/ 记录。
-2. 支持命令行的 Agent 使用 `python scripts/archive_sync.py snapshot` 获取固定提交上的 Markdown 档案。
-3. 完成任务后，按 [ai-integration.md](ai-integration.md) 生成记录 JSON，调用 `record --input <文件> --auto-merge`。脚本会新增文件、创建提交和 PR；只有指定 CI 校验成功后才合并。未完成时返回 PR 链接，不能宣称已经同步。
-4. 查看或恢复历史：见 [docs/version-control.md](docs/version-control.md)。恢复通过新增提交保留历史。
+本机可读的 81 个 Codex 用户聊天和 6 个有正文的 VS Code 聊天，共 **87 个会话**，开始日期为 2026-02-24—2026-10-27。另检查并列出 30 个空白 VS Code 容器；Copilot 的 4 个索引会话已包含其中，没有重复计算。145 个辅助子任务不当作新的本人陈述。所有来源均有编号和状态。
 
-## 当前边界
+ChatGPT 云端会话当前无法通过应用接口读取，未找到常见导出；其他未取得的云端记录、附件独立内容未被冒称已覆盖。
 
-- 当前 GitHub 账户不支持私有仓库分支保护：API 返回 403，要求 GitHub Pro。校验工作流和客户端限制不能阻止持有写权限者直接修改 main。
-- AI 识别标签是约定，不能替代 GitHub 权限控制。通用写入工具只新增记录，不修改核心身份文件。
-- 接入配置、CLI、MCP 服务与任务结束钩子已随仓库提供；ChatGPT、Gemini、Claude、Meta Muse、OpenAI Dots 的账户连接需要各自授权。未授权的平台不会自动读取此私有仓库。
-- 本仓库不自动调用付费模型，不保存密码、令牌、完整聊天记录或不相关的第三方信息。
+## 目录职责
 
-[完整接入指南](ai-integration.md) · [安全说明](SECURITY.md) · [快速提示词](docs/quick-start-prompt.md)
+| 目录 | 保存内容 |
+| --- | --- |
+| identity/ | 本人明确自述的身份、目标和原则 |
+| workflow/ | 工作方式、工具、沟通、优先级与交接 |
+| memory/ | 有来源的偏好、经验和决策 |
+| skills/ | 有证据的能力、正在学习的内容和待验证项 |
+| archive/ | 逐聊天摘要与项目阶段快照；不等于项目已完成 |
+
+## AI 读取与更新
+
+先读 [AGENTS.md](AGENTS.md)，再按任务读取相关文件。未知项保留 `{{...}}`，用户明确表达、助手历史报告和建议分别处理。
+
+```sh
+python scripts/archive_sync.py read --path identity/profile.md
+python scripts/archive_sync.py snapshot
+python scripts/archive_sync.py record --input <真实记录.json> --auto-merge
+```
+
+公开文件可匿名读取；批量读取建议使用授权凭据以避免 GitHub 匿名限流。写入必须授权，新增记录经 PR 和 archive-validate 校验后合并。MCP 默认只读；详见 [ai-integration.md](ai-integration.md)。
+
+## 公开与版本边界
+
+- 公开的是整理后的摘要；不发布聊天原文、凭据、联系方式、私人关系、第三方身份和内部财务/设备接入信息。
+- main 已要求 PR、archive-validate 检查，并对管理员应用禁止强推/删除等保护；工具还核对被校验提交 SHA。
+- 所有修改保留 Git 提交；[恢复入口与说明](docs/version-control.md)支持恢复完整档案历史版本。
+- 日后转私有需重新核对套餐下的保护能力；已被他人克隆的公开副本无法收回。
+
+[本次整理报告](docs/chat-import-report.md) · [接入指南](ai-integration.md) · [安全边界](SECURITY.md) · [初次搭建历史报告](docs/setup-report.md)

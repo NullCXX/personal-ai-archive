@@ -1,5 +1,7 @@
 # AI-INDEX: 个人 AI 档案搭建与验收报告
 
+> 历史记录：下文描述初次搭建时的私有状态。随后用户已要求改为公开，main 保护也已成功开启；当前状态见 [本次聊天整理报告](chat-import-report.md)。
+
 交付日期：2026-10-27（Asia/Shanghai）  
 GitHub 账户：NullCXX  
 仓库：[NullCXX/personal-ai-archive](https://github.com/NullCXX/personal-ai-archive)  

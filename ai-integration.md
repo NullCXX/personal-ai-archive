@@ -1,29 +1,35 @@
 # AI-INTEGRATION: 跨平台读取与任务结束回写
 
-仓库：`NullCXX/personal-ai-archive`；分支：`main`；内容：UTF-8 Markdown；配置版本：1；核查日期：2026-10-27。
+仓库：`NullCXX/personal-ai-archive`；分支：`main`；内容：UTF-8 Markdown；配置版本：2；核查日期：2026-10-27。
+
+## 当前访问方式
+
+仓库已公开。支持浏览网页的 AI 可按 URL 阅读公开 Markdown；支持 HTTP 的工具可匿名调用 GitHub 只读 API。公开状态不表示 AI 会自动加载内容，写入和任务结束触发仍需要工具授权/配置。完整快照可能超过匿名请求限额，建议批量任务使用只读凭据。
+
+主分支保护现已启用。早期私有仓库受套餐限制的情况属于历史状态。
 
 ## 能力与实际连接状态
 
 | 平台 | 接入路径 | 本次交付状态 |
 | --- | --- | --- |
 | ChatGPT | 账号可用的 GitHub 应用用于读取；支持自定义 API 工具的环境可用下方 GitHub API / OpenAPI | 适配说明和只读 OpenAPI 已生成；未登录或绑定该平台账户，不能宣称连接完成 |
-| Gemini | 通过 API function calling 调用 archive_read / archive_snapshot / archive_record，由宿主执行脚本 | 函数定义和执行工具已提供；普通网页聊天不因此自动获得私有仓库权限 |
+| Gemini | 通过 API function calling 调用 archive_read / archive_snapshot / archive_record，由宿主执行脚本 | 函数定义和执行工具已提供；普通网页聊天是否能读取取决于其浏览/工具能力 |
 | Claude | 支持本地 stdio MCP 的客户端可启动本仓库 MCP 服务；API 客户端可用函数工具 | MCP 服务和配置示例已提供；未修改你现有的客户端配置 |
 | OpenAI Dots | 如账户提供 GitHub/命令行/兼容 MCP 能力，按同一读写协议接入 | 未核实该账户功能和可用官方接入文档；保留通用适配，不承诺产品原生自动同步 |
 | Meta Muse | 如产品支持授权 HTTP、命令行或兼容 MCP，按同一协议接入 | 未核实对应产品的官方 GitHub 同步接口；不能承诺原生支持 |
 
-各平台首次授权受平台自身机制控制，无法靠一个 Markdown 文件或提示词替代。已授权并配置工具/任务钩子的 Agent 可复用同一数据格式；跨设备不需要重建档案，但设备仍需独立获得权限。不要将私有仓库改公开来解决读取失败。
+各平台首次授权受平台自身机制控制，无法靠一个 Markdown 文件或提示词替代写入授权。已配置工具/任务钩子的 Agent 可复用同一数据格式；跨设备不需要重建档案。公开读取无需身份授权，回写仍须授权。
 
 ## 直接使用 GitHub API
 
-请求发送至 `https://api.github.com`，认证放在 `Authorization: Bearer <运行环境中的令牌>` 请求头。不要将令牌粘贴到聊天、仓库、URL 或命令历史。
+请求发送至 `https://api.github.com`。公开只读可以不带认证；需要认证时放在 `Authorization: Bearer <运行环境中的令牌>` 请求头。不要将令牌粘贴到聊天、仓库、URL 或命令历史。
 
 1. `GET /repos/NullCXX/personal-ai-archive/git/ref/heads/main`，获取 `object.sha`。
 2. `GET /repos/NullCXX/personal-ai-archive/contents/AGENTS.md?ref=<SHA>`，随后读取相关目录。使用 `Accept: application/vnd.github.raw+json` 可直接返回 Markdown；JSON 模式的 `content` 则是 Base64，需要工具解码后交给 AI。
 3. `GET /repos/NullCXX/personal-ai-archive/git/trees/<SHA>?recursive=1` 获取文件索引，检查 `truncated`。只读取任务相关 `.md` 文件。
 4. 写入使用独立分支 + 新文件 + PR，不直接覆写 main；完整实现见 `scripts/archive_sync.py`。
 
-`integrations/github-read.openapi.json` 可供支持 OpenAPI 导入的工具宿主使用，只提供读取接口；宿主必须单独配置认证。不是所有聊天页面都支持导入 OpenAPI。
+`integrations/github-read.openapi.json` 可供支持 OpenAPI 导入的工具宿主使用，只提供读取接口；宿主必须单独配置认证。不是所有聊天页面都支持导入 OpenAPI。描述中允许匿名只读，Bearer 认证为可选。
 
 ## 命令行适配：无需安装第三方 Python 包
 

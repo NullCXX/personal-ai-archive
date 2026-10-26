@@ -16,6 +16,17 @@ RECORD = {'category': 'lesson', 'title': 'Verified lesson', 'detail': 'Use a fix
 
 
 class RecordTests(unittest.TestCase):
+    def test_public_client_can_initialize_without_credential(self):
+        with patch('archive_sync.credential', return_value=None):
+            client = GitHub('owner/public-repo')
+        self.assertIsNone(client.token)
+
+    def test_anonymous_client_cannot_write(self):
+        with patch('archive_sync.credential', return_value=None):
+            client = GitHub('owner/public-repo')
+        with self.assertRaises(ArchiveError):
+            client.api('POST', '/git/refs', {})
+
     def test_retries_produce_same_path(self):
         a = record_content(RECORD, '2026-01-01T00:00:00+00:00')
         b = record_content(dict(reversed(list(RECORD.items()))), '2026-02-01T00:00:00+00:00')

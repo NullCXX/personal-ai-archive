@@ -35,7 +35,7 @@ class ApiError(ArchiveError):
         super().__init__(f'GitHub HTTP {status}: {message}')
 
 
-def credential():
+def credential(required=True):
     for key in ('ARCHIVE_GITHUB_TOKEN', 'GH_TOKEN', 'GITHUB_TOKEN'):
         if os.getenv(key):
             return os.environ[key]
@@ -49,7 +49,9 @@ def credential():
             return fields['password']
     except (OSError, subprocess.TimeoutExpired):
         pass
-    raise ArchiveError('No GitHub credential. Authorize this repository in your tool host.')
+    if required:
+        raise ArchiveError('No GitHub credential. Authorize this repository in your tool host.')
+    return None
 
 
 def safe_path(value):
@@ -110,14 +112,18 @@ class GitHub:
         if not re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+', self.repo):
             raise ArchiveError('Invalid repository identifier.')
         self.prefix = '/repos/' + self.repo
-        self.token = credential()
+        self.token = credential(required=False)
 
     def api(self, method, path, data=None):
+        if method != 'GET' and not self.token:
+            raise ArchiveError('Writing requires a GitHub credential authorized for this repository.')
+        headers = {'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28',
+            'Content-Type': 'application/json', 'User-Agent': 'personal-ai-archive/1'}
+        if self.token:
+            headers['Authorization'] = 'Bearer ' + self.token
         request = urllib.request.Request('https://api.github.com' + self.prefix + path,
             data=json.dumps(data).encode() if data is not None else None,
-            method=method, headers={'Authorization': 'Bearer ' + self.token,
-                'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28',
-                'Content-Type': 'application/json', 'User-Agent': 'personal-ai-archive/1'})
+            method=method, headers=headers)
         try:
             with urllib.request.urlopen(request, timeout=30) as response:
                 body = response.read()
