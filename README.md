@@ -9,6 +9,7 @@
 
 - [个人身份](identity/profile.md)、[目标](identity/goals.md)、[实践与决策原则](identity/values.md)
 - [沟通与交付偏好](workflow/preferences.md)、[工具](workflow/tools.md)、[推进顺序](workflow/priorities.md)
+- [生活咨询参考指南](workflow/reference-guides.md)：已关联 [HowToLiveBetter · 高性价比人生指南](https://github.com/eternity4719/HowToLiveBetter)，供相关咨询时按需参考。
 - [偏好索引](memory/preferences.md)、[经验主题](memory/lessons.md)、[决策与开放项](memory/decisions-index.md)
 - [能力证据](skills/inventory.md)、[学习路线](skills/learning-plan.md)、[待提升项](skills/gaps.md)
 - [87 个聊天的逐项摘要](archive/conversations/2026-10-27/index.md)、[13 个项目主题](archive/index.md)
@@ -43,7 +44,7 @@ python scripts/archive_sync.py record --input <真实记录.json> --auto-merge
 
 ## 公开与版本边界
 
-- 公开的是整理后的摘要；不发布聊天原文、凭据、联系方式、私人关系、第三方身份和内部财务/设备接入信息。
+- 公开的是整理后的摘要；不发布聊天原文、凭据、联系方式和内部财务/设备接入信息。历史聊天中的私人关系和第三方信息不自动公开；个人档案中本次由本人主动补充的恋爱状态、纪念日期和家庭职业仅限已提供的内容，详见 [公开数据范围](SECURITY.md)。
 - main 已要求 PR、archive-validate 检查，并对管理员应用禁止强推/删除等保护；工具还核对被校验提交 SHA。
 - 所有修改保留 Git 提交；[恢复入口与说明](docs/version-control.md)支持恢复完整档案历史版本。
 - 日后转私有需重新核对套餐下的保护能力；已被他人克隆的公开副本无法收回。
