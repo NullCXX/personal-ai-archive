@@ -1,0 +1,8 @@
+{
+  "category": "lesson",
+  "title": "{{真实任务中的经验标题}}",
+  "detail": "{{已验证且可复用的经验}}",
+  "source": "{{任务或对话来源标识}}",
+  "evidence": "{{支持该结论的证据摘要}}",
+  "status": "proposed"
+}

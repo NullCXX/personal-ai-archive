@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "personal-ai-archive": {
+      "command": "python",
+      "args": [
+        "{{仓库绝对路径}}/scripts/mcp_server.py"
+      ],
+      "env": {
+        "ARCHIVE_REPO": "NullCXX/personal-ai-archive",
+        "ARCHIVE_ALLOW_WRITE": "0",
+        "ARCHIVE_AUTO_MERGE": "0"
+      }
+    }
+  }
+}

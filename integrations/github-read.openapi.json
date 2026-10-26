@@ -1,0 +1,97 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Private personal AI archive (read only)",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api.github.com"
+    }
+  ],
+  "security": [
+    {
+      "githubToken": []
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "githubToken": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    }
+  },
+  "paths": {
+    "/repos/NullCXX/personal-ai-archive/git/ref/heads/main": {
+      "get": {
+        "operationId": "archiveMainRef",
+        "description": "Resolve the current main commit.",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "GitHub response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Insufficient permissions or rate limit"
+          },
+          "404": {
+            "description": "Missing path or repository not authorized"
+          }
+        }
+      }
+    },
+    "/repos/NullCXX/personal-ai-archive/contents/{path}": {
+      "get": {
+        "operationId": "archiveContents",
+        "description": "Read content; JSON response uses Base64 for file content.",
+        "parameters": [
+          {
+            "name": "path",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "ref",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Pinned commit SHA from archiveMainRef."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "GitHub response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "401": {
+            "description": "Authentication required"
+          },
+          "403": {
+            "description": "Insufficient permissions or rate limit"
+          },
+          "404": {
+            "description": "Missing path or repository not authorized"
+          }
+        }
+      }
+    }
+  }
+}

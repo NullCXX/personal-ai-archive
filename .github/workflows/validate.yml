@@ -1,0 +1,31 @@
+name: Validate archive
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate:
+    name: archive-validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Test portable client
+        run: python3 -m unittest discover -s tests -v
+      - name: Validate archive and PR changes
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_BRANCH: ${{ github.head_ref }}
+        run: |
+          if [ -n "$BASE_SHA" ]; then
+            python3 scripts/validate_archive.py --base "$BASE_SHA" --branch "$HEAD_BRANCH"
+          else
+            python3 scripts/validate_archive.py
+          fi

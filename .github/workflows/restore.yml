@@ -1,0 +1,31 @@
+name: Restore archive
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: Full 40-character SHA of the archive version to restore
+        required: true
+        type: string
+permissions:
+  contents: write
+  pull-requests: write
+  checks: read
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: main
+          persist-credentials: false
+      - name: Validate current tools
+        run: |
+          python3 -m unittest discover -s tests -v
+          python3 scripts/validate_archive.py
+      - name: Create restoration commit and pull request
+        env:
+          ARCHIVE_GITHUB_TOKEN: ${{ github.token }}
+          ARCHIVE_REPO: ${{ github.repository }}
+          RESTORE_SHA: ${{ inputs.commit_sha }}
+        run: python3 scripts/archive_sync.py restore --sha "$RESTORE_SHA"

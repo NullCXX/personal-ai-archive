@@ -1,0 +1,81 @@
+[
+  {
+    "name": "archive_read",
+    "description": "Read a Markdown archive file at a pinned commit.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "string"
+        },
+        "ref": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "archive_snapshot",
+    "description": "Read a coherent archive snapshot from one main commit.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {},
+      "additionalProperties": false
+    }
+  },
+  {
+    "name": "archive_record",
+    "description": "Add a sourced record via a commit and pull request; never modify identity.",
+    "inputSchema": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "enum": [
+            "preference",
+            "lesson",
+            "decision",
+            "workflow",
+            "skill",
+            "archive"
+          ]
+        },
+        "title": {
+          "type": "string"
+        },
+        "detail": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "confirmed",
+            "proposed"
+          ]
+        },
+        "supersedes": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "category",
+        "title",
+        "detail",
+        "source",
+        "evidence",
+        "status"
+      ],
+      "additionalProperties": false
+    }
+  }
+]
