@@ -42,6 +42,8 @@ python scripts/archive_sync.py record --input <真实记录.json> --auto-merge
 
 公开文件可匿名读取；批量读取建议使用授权凭据以避免 GitHub 匿名限流。写入必须授权，新增记录经 PR 和 archive-validate 校验后合并。MCP 默认只读；详见 [ai-integration.md](ai-integration.md)。
 
+用户已开启 [任务结束自动更新规则](workflow/auto-update.md)：已连接并获写入授权的 AI 在每次任务完成时提取值得长期保留的新信息，去重、提交并等待校验后自动合并。本机 Codex 配套使用全局指令与具备写入权限的 MCP 配置；其他客户端仍需各自连接工具。
+
 ## 公开与版本边界
 
 - 公开的是整理后的摘要；不发布聊天原文、凭据、联系方式和内部财务/设备接入信息。历史聊天中的私人关系和第三方信息不自动公开；个人档案中本次由本人主动补充的恋爱状态、纪念日期和家庭职业仅限已提供的内容，详见 [公开数据范围](SECURITY.md)。
