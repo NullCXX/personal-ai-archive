@@ -12,7 +12,8 @@
 - [生活咨询参考指南](workflow/reference-guides.md)：已关联 [HowToLiveBetter · 高性价比人生指南](https://github.com/eternity4719/HowToLiveBetter)，供相关咨询时按需参考。
 - [偏好索引](memory/preferences.md)、[经验主题](memory/lessons.md)、[决策与开放项](memory/decisions-index.md)
 - [能力证据](skills/inventory.md)、[学习路线](skills/learning-plan.md)、[待提升项](skills/gaps.md)
-- [87 个聊天的逐项摘要](archive/conversations/2026-10-27/index.md)、[13 个项目主题](archive/index.md)
+- [87 个聊天的逐项摘要](archive/conversations/2026-10-27/index.md)、[14 个项目主题](archive/index.md)
+- [补充文档 DOC001：机器人副业创业复盘与公开版导图](archive/documents/robotics-entrepreneurship-review.md)
 
 ## 本次整理范围
 

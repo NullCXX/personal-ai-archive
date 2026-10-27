@@ -19,6 +19,7 @@ ChatGPT 云端会话当前不可读取；未发现常见导出文件。图片、
 
 ## 项目主题
 
+- [商业化机器人实验室与教育玩具](projects/commercial-robotics-lab.md)：当前创业方向、历史复盘与待验证事项
 - [3DCUT 智能语义拆件](projects/stl-splitter.md)：进行中 / 未达最终验收
 - [柔顺机构与机械解压玩具](projects/flexure-cad.md)：AI 报告交付 / 实体效果待验证
 - [NexBOT 品牌与实验室叙事](projects/nexbot-brand.md)：方案迭代 / 定稿未确认
@@ -35,3 +36,9 @@ ChatGPT 云端会话当前不可读取；未发现常见导出文件。图片、
 - [STL 软件申请材料](projects/software-registration.md)：材料生成有历史报告，正式登记未确认
 
 `archive/` 在这里用于归档历史记录和阶段快照，不能据目录位置认定项目“已完成”。
+
+## 用户补充文档
+
+- [DOC001：机器人副业创业交流复盘](documents/robotics-entrepreneurship-review.md)：2026-10-27 导入；原文标注整理日期 2026-10-10，实际谈话日期未确认。包含公开摘要、建议归属、开放问题与重新归纳的思维导图。原 Word 和私人内容未上传。
+
+补充文档不计入此前 87 个聊天的历史快照，也不据此新增一个已验证完成的项目。
