@@ -53,6 +53,8 @@ python scripts/archive_sync.py record --input integrations/example-record.json -
 
 ## 自动更新规则
 
+2026-10-27，用户已明确选择自动更新。具体授权范围、触发点和失败处理见 [任务结束自动更新](workflow/auto-update.md)。本机 Codex 配套设置全局指令与可写 MCP；其他平台的连接状态仍以实际配置为准。全局配置不会让已打开的所有会话即时获得新工具，需在新会话或工具重新加载后生效。
+
 | 信息类型 | category | 新记录位置 |
 | --- | --- | --- |
 | 明确偏好或待确认偏好 | preference | memory/preferences/ |
@@ -73,5 +75,6 @@ python scripts/archive_sync.py record --input integrations/example-record.json -
 ## 官方资料与核实边界
 
 - 已读取：[GitHub Contents API](https://docs.github.com/en/rest/repos/contents#get-repository-content)、[分支保护与套餐](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-protected-branches/about-protected-branches)、[Gemini Function calling](https://ai.google.dev/gemini-api/docs/function-calling)。
+- 本次自动更新配置已成功读取 [OpenAI Docs：Codex MCP](https://developers.openai.com/codex/mcp/) 与 [全局 AGENTS.md](https://developers.openai.com/codex/guides/agents-md/)，据此配置本机入口。下面的网络失败描述仅属于初次搭建时的历史核查。
 - 本环境访问 OpenAI 官方文档域名出现 TLS 连接错误；[OpenAI tools/MCP](https://developers.openai.com/api/docs/guides/tools-connectors-mcp) 和 [Claude tool use](https://docs.anthropic.com/en/docs/agents-and-tools/tool-use/overview) 仅作为待核对入口，未据此声称当前账户已支持某项功能。
 - Meta Muse / OpenAI Dots 的专用同步接口、权限选项与地区/套餐可用性尚未核实，不编造配置键或 API 地址。
